@@ -54,19 +54,15 @@ nutrients_complete <- usda_nutrients_subset %>%
          loadings.label.size = 3,
          loadings.label.vjust = 0,
          loadings.label.hjust = -.1) +
+   labs(color = "Food Group") +
    theme_minimal() 
-
- 
- 
-   #scale_color_manual(values = c("blue","purple","orange")) +
-  #scale_fill_manual(values = c("blue","purple","orange")) +
-  
 ```
 **Figure 1**. A Principal Components Analysis biplot showing the correlation between nutrient values (protein, fat, energy, carbohydrates, sugar) for certain food groups (beef products, fast foods, fruits and fruit juices, sweets, and vegetable and vegetable products). 
 
 
 ## Summary
 A few major takeaways from the PCA that can be gleaned from the biplot include: 
+
 - Carbohydrates and sugars are highly positively correlated 
 - Protein is negatively correlated with carbohydrates and sugars
 - Fat is minimally correlated to protein and energy 
