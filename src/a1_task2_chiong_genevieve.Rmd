@@ -1,5 +1,5 @@
 ---
-title: "a1_task2_chiong_genevieve"
+title: "PCA of USDA Nutrient Information for Various Foods"
 author: "Genevieve Chiong"
 date: "1/21/2021"
 output: html_document
@@ -14,17 +14,19 @@ library(janitor)
 library(ggfortify)
 ```
 
-## Introduction
+### Introduction
 
-The USDA FoodData Central "is an integrated, research-focused data system that provides expanded data on nutrients and other food components as well as links to sources of related agricultural, food, dietary supplement, and other information. FoodData Central includes five data types which provide data on nutrient values and other food components on a diverse range of foods and ingredients." A dataset is used to analyze the nutritional values (specifically the energy, protein, fat, carbohydrate, and sugar values) of beef products, fast foods, fruits and fruit juices, sweets, and vegetables and vegetable products. A biplot for Principal Components Analysis (PCA) is created to visually explore data for relationships as well as correlations between variables. 
+The USDA FoodData Central is a research-focused data system that provides data on nutrient values and other food components on a wide range of foods and ingredients. FoodData Central also includes links to sources of agricultural, food, dietary supplement, and other information. This report uses a FoodData Central dataset to analyze the nutritional values (specifically the energy, protein, fat, carbohydrate, and sugar values) of beef products, fast foods, fruits and fruit juices, sweets, and vegetables and vegetable products. A biplot for Principal Components Analysis (PCA) is created to visually explore the data for relationships as well as correlations between the nutritional values. 
 
-Data Citation: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov. 
+Data citation: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central. Foundation Foods - October 2020. 2020. fdc.nal.usda.gov. 
 
 ```{r}
-# Read in the USDA nutrient data, selecting for only the following five food groups: Fruits and Fruit Juices, Vegetables and Vegetable PRoducts, Sweets, Fast Foods, and Beef Products 
+# Read in the USDA nutrients data and clean names
 
 usda_nutrients <- read_csv(here("data", "usda_nutrients.csv")) %>% 
   clean_names() 
+
+# Create a subset of the original dataset by limiting the data to only the following five food groups: Beef Products, Fast Foods, Fruits and Fruit Juices, Sweets, and Vegetables and Vegetable Products
 
 usda_nutrients_subset <- usda_nutrients %>%  
   filter(food_group %in% c("Fruits and Fruit Juices", 
@@ -32,45 +34,55 @@ usda_nutrients_subset <- usda_nutrients %>%
                            "Sweets", 
                            "Fast Foods", 
                            "Beef Products")) 
+```
 
+
+```{r}
+# Run the PCA for the 5 food groups, selecting only for the following nutritional values: energy, protein, fat, carbohydrates, and sugar 
 nutrients_pca <- usda_nutrients_subset %>% 
-  subset(select = -c(common_name, mfg_name, scientific_name)) %>% 
+  subset(select = -c(common_name, mfg_name, scientific_name)) %>% # Remove columns related to specific food names
   select(energy_kcal, protein_g, fat_g, carb_g, sugar_g) %>% 
-  scale() %>% 
+  scale() %>% # Scale the data so that all follow z-distribution
   prcomp()
 
+# See the loadings (weighting for each principal component)
 nutrients_pca$rotation
 
+# Create a complete subset that filters out columns related to specific food names but keeps all other nutritional values (columns) in addition to the five selected above 
 nutrients_complete <- usda_nutrients_subset %>% 
   subset(select = -c(common_name, mfg_name, scientific_name)) 
 
+# Plot the PCA 
  autoplot(nutrients_pca,
-         data = nutrients_complete,
-         color = "food_group",
-         loadings = TRUE,
-         loadings.label = TRUE,
-         loadings.colour = "black",
-         loadings.label.colour = "black",
-         loadings.label.size = 3,
-         loadings.label.vjust = 0,
-         loadings.label.hjust = -.1) +
+          data = nutrients_complete,
+          colour = 'food_group',
+          loadings = TRUE,
+          loadings.label = TRUE,
+          loadings.colour = "black",
+          loadings.label.colour = "black",
+          loadings.label.size = 3,
+          loadings.label.vjust = -.5,
+          loadings.label.hjust = -.1) +
    labs(color = "Food Group") +
    theme_minimal() 
 ```
-**Figure 1**. A Principal Components Analysis biplot showing the correlation between nutrient values (protein, fat, energy, carbohydrates, sugar) for certain food groups (beef products, fast foods, fruits and fruit juices, sweets, and vegetable and vegetable products). 
+
+**Figure 1**. A Principal Components Analysis (PCA) biplot showing the correlation between nutrient values (protein, fat, energy, carbohydrates, sugar) for certain food groups (beef products, fast foods, fruits and fruit juices, sweets, and vegetable and vegetable products). Data: USDA. 2020. 
 
 
-## Summary
-A few major takeaways from the PCA that can be gleaned from the biplot include: 
+### Summary
 
-- Carbohydrates and sugars are highly positively correlated 
-- Protein is negatively correlated with carbohydrates and sugars
-- Fat is minimally correlated to protein and energy 
+A few major takeaways from the PCA that can be drawn from the biplot include: 
+
+- Carbohydrates and sugars are highly positively correlated.
+- Carbohydrates and sugars are minimally correlated with energy. 
+- Protein is negatively correlated with carbohydrates and sugars.
+- Fat is positively correlated to protein and energy. 
   
+  
+### Citations
 
-
-
-
+U.S. Department of Agriculture, Agricultural Research Service. FoodData Central. Foundation Foods - October 2020. 2020. fdc.nal.usda.gov. 
 
 
 
