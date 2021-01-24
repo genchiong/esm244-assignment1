@@ -46,7 +46,7 @@ nutrients_complete <- usda_nutrients_subset %>%
 
  autoplot(nutrients_pca,
          data = nutrients_complete,
-         colour = "food_group",
+         color = "food_group",
          loadings = TRUE,
          loadings.label = TRUE,
          loadings.colour = "black",
