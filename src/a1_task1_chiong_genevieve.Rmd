@@ -57,7 +57,7 @@ graph_a
 
 
 ```{r}
-# Wrangle data to count the combined adult and subadult yellow-legged frogs (Rana muscosa) in the 5 lakes with the greatest total observed counts 
+# Wrangle data to count the combined adult and subadult mountain yellow-legged frogs (Rana muscosa) in the 5 lakes with the greatest total observed counts 
 
 sierra_amphibians$lake_id <- paste("Lake", sierra_amphibians$lake_id, sep = " ") # Reformat lake ID from a number to a label 
 
@@ -71,7 +71,7 @@ adult_subadult_ramu <- sierra_amphibians %>%
     
     
 ```{r}
-# Create a column graph displaying lake ID vs total yellow-legged frog counts (adult + subadult) for the 5 lakes with the greatest total observed counts 
+# Create a column graph displaying lake ID vs total mountain yellow-legged frog counts (adult + subadult) for the 5 lakes with the greatest total observed counts 
 
 graph_b <- ggplot(data = adult_subadult_ramu,
        aes(x = lake_id,
@@ -94,7 +94,7 @@ graph_c <- (graph_a / graph_b)
 
 graph_c 
 
-ggsave(here("src", "graph_c.png"), width = 8, height = 10)
+ggsave(here("src", "graph_c.png"), width = 8, height = 10) # Save figure as a png
 ```
 
 ### Citations 

@@ -67,7 +67,7 @@ nutrients_complete <- usda_nutrients_subset %>%
    theme_minimal() 
 ```
 
-**Figure 1**. A Principal Components Analysis (PCA) biplot showing the correlation between nutrient values (protein, fat, energy, carbohydrates, sugar) for certain food groups (beef products, fast foods, fruits and fruit juices, sweets, and vegetable and vegetable products). Data: USDA. 2020. 
+**Figure 1**. A Principal Components Analysis (PCA) biplot showing the correlation between nutrient values [protein (g), fat (g), energy (kcal), carbohydrates (g), sugar (g)] for certain food groups (beef products, fast foods, fruits and fruit juices, sweets, and vegetable and vegetable products). Data: USDA. 2020. 
 
 
 ### Summary
